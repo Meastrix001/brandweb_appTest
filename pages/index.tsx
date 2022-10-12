@@ -29,12 +29,12 @@ const Home: NextPage = ({RawgData}: any) => {
 
   const paths =[
     {
-      title: "Main dashboard",
+      title: "Home",
       desc: "",
       id: 1
     },
     {
-      title: "Webiste traffic",
+      title: "All Games",
       desc: "",
       id: 2
     },
@@ -147,7 +147,7 @@ const Home: NextPage = ({RawgData}: any) => {
                  />
           </a> 
             <div className=' flex justify-center align-content-center is-fullheight'>
-              <h3 className='text-white bg-danger'>Activities</h3>
+              <h3 className='text-white bg-danger'>Dashboard</h3>
               {paths.map((path) => {
                 return (
                 <a key={path.id} href="#" className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple"    aria-current="true">
