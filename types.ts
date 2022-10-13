@@ -6,7 +6,7 @@ export interface Game {
     description:                 string;
     metacritic:                  number;
     // metacritic_platforms:        AddedByStatus[];
-    released:                    Date;
+    released:                    String;
     tba:                         boolean;
     updated:                     Date;
     background_image:            string;

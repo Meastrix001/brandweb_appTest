@@ -1,10 +1,20 @@
 .gameCard{
+    transition: 0.25s ease all;
+
+    &:hover{
+        transform: scale(1.05);
+        transition: 0.25s ease all;
+    }
     a{
         figure{
             margin-bottom: -1rem;
             img{
+                height: 80px;
                 position: relative;
                 z-index: 10;
+                @media (min-width: 992px) {
+                    height: 140px;
+                  }
             }
         }
     }
