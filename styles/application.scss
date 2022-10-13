@@ -90,8 +90,23 @@ ul{
 .searchResultsList{
 position: fixed;
 top: 5rem;
-max-width: 100%;
+max-width: 80%;
 box-shadow: 0px 9px 10px 0px white;
+@media (min-width: 500px) {
+  max-width: 100%;
+
+    
+  }
+a{
+  img{
+    margin-left: 1rem;
+    width: 50px;
+    @media (min-width: 500px) {
+    width: 120px;
+      
+    }
+  }
+}
 }
 
 .sidebar {

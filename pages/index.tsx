@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { json } from 'stream/consumers'
 import GameCard from '../components/GameCard'
 const Home: NextPage = ({RawgData}: any) => {
-  console.log(RawgData)
   // const [searchResult, setSearchResult] = useState()
   const [searchResult, setSearchResult] = useState<any[]>([])
   const [updateSearch, setUpdateSearch] = useState<Number>(0)
@@ -55,19 +54,8 @@ const Home: NextPage = ({RawgData}: any) => {
         id="main-navbar"
         className="container navbar navbar-expand-lg navbar-light bg-primary fixed-top"
         >
-        <div className="container-fluid">
+        <div className="container-fluid justify-content-between">
           <div className='d-flex'>
-            <button
-            className="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            >
-            <i className="fas fa-bars text-danger">X</i>
-            </button>  
             <form className=" d-md-flex input-group navSearchField w-auto border-box ml-2">
             <input
               autoComplete="off"
@@ -82,6 +70,17 @@ const Home: NextPage = ({RawgData}: any) => {
               <i className='p-2 border border-light border rounded-right' onClick={(e)=> {setSearchQuerry(searchQuerry)}}>
                 <img src="/search.svg" height="25px"  alt="" />
               </i>
+            <button
+            className="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#sidebarMenu"
+            aria-controls="sidebarMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <i className="fas fa-list text-danger">X</i>
+            </button>  
               <ul className='searchResultsList rounded is-flex bg-dark'>
                 { searchResult?.slice(0,10).map((e) => {
                   return <li className='list-unstyled pl-2 pr-2' key={e.id}>
@@ -89,7 +88,7 @@ const Home: NextPage = ({RawgData}: any) => {
                       <img width="120px" src={e.background_image}/>
                       <div>
                       <p className='px-4'>{e.name}</p> 
-                      <p className='px-4'>{e.released}</p> 
+                      <p className='px-4 d-none d-md-block'>{e.released}</p> 
                       <ul>    
                       </ul> 
                       </div>
@@ -101,7 +100,7 @@ const Home: NextPage = ({RawgData}: any) => {
           </div>
 
           
-          <ul className="navbar-nav d-flex flex-row m-auto m-sm-0">   
+          {/* <ul className="navbar-nav d-flex flex-row m-auto m-sm-0">   
   
             <li className="nav-item open dropdown">
               <a
@@ -129,7 +128,7 @@ const Home: NextPage = ({RawgData}: any) => {
                 <li><a className="dropdown-item" href="#">Logout</a></li>
               </ul>
             </li>
-          </ul>
+          </ul> */}
         </div>      
       </nav>
       
