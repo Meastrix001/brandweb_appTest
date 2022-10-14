@@ -5,7 +5,7 @@ type Props = {
 function MainContainer({ children }: Props) {
 return (
     <main className='bg-primary border-4 border-dark'>
-        <div className='p-4 container'>
+        <div>
             {children}
         </div>
     </main>

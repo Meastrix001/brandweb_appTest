@@ -27,7 +27,7 @@ const Home: NextPage = ({searchDataRes, RawgData}: any) => {
       </Head>
       
         <MainContainer> 
-            <div>
+            <div className='container p-4'>
               {/* searchResult large */}
               {searchResult ? 
                 <div className={`${searchResult.length === 0 ? "d-none" : ""}`}>

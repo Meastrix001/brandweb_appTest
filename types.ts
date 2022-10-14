@@ -10,11 +10,13 @@ export interface Game {
     tba:                         boolean;
     updated:                     Date;
     background_image:            string;
+    developers:                  developers[];
     background_image_additional: string;
     website:                     string;
     rating:                      number;
     rating_top:                  number;
-    // ratings:                     AddedByStatus;
+    description_raw:             string;
+    ratings:                     Rating[];
     // reactions:                   AddedByStatus;
     added:                       number;
     // added_by_status:             AddedByStatus;
@@ -41,7 +43,17 @@ export interface Game {
     game_series_count:           number;
     esrb_rating:                 EsrbRating;
     platforms:                   Platform[];
+    publishers:                  Publishers[];
+    stores:                      Stores[]
   };
+
+  export interface developers {
+    games_count:                number;
+    id:                         number;
+    image_background:           string;
+    name:                       string;
+    slug:                       string 
+  }
 
   export interface EsrbRating {
     id:   number;
@@ -52,7 +64,46 @@ export interface Game {
 export interface Platform {
     platform:     EsrbRating;
     released_at:  string;
-    // requirements: Requirements;
+    slug: String
+    requirements: Requirements;
 }
+
+export interface Requirements {
+  minimum:     string;
+  recommended:  string;
+}
+
+export interface Publishers {
+  games_count:                number;
+  id:                         number;
+  image_background:           string;
+  name:                       string;
+  slug:                       string;
+}
+
+export interface Stores {
+  id:                         number;
+  store:                      Store[];  
+  url:                        string;
+}
+
+export interface Store {
+  domain:                     string;
+  games_count:                number;
+  id:                         number;
+  image_background:           string;
+  name:                       string;
+  slug:                       string;
+}
+
+export interface Rating {
+  count:                      number;
+  id:                         number;
+  percent:                    number;
+  title:                      string;
+}
+
+
+  
 
   

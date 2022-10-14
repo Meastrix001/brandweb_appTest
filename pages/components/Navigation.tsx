@@ -68,7 +68,7 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
               onClick={(e)=> {setUpdateSearch(+1),
                 setSearchOpen(true)}}
               />
-              <i className='p-2 border border-light border rounded-right' onClick={(e)=> {childToParentSearchRes(searchResult), setSearchOpen(false)}}>
+              <i className='p-2 border cursor-pointer border-light border rounded-right' onClick={(e)=> {childToParentSearchRes(searchResult), setSearchOpen(false)}}>
                 <img src="/search.svg" height="25px"  alt="" />
               </i>
 
@@ -120,9 +120,21 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
               />
               <button onClick={(e) => {setDropdownToggle(!dropdownToggle)}} className={`shadow-none text-white btn btn-secondary dropdown-toggle dropdownButton $dDropdownToggle ? "rotate" : ""}`}type="button"data-bs-toggle="dropdown" aria-expanded="false"/>
               <ul className={`mt-5 bg-dark dropdown-menu ${dropdownToggle ? "show" : ""}`}>
-                <li><a className="text-white dropdown-item" href="#">Profile</a></li>
-                <li><a className="text-white dropdown-item" href="#">Log out</a></li>
-                <li><a className="text-white dropdown-item" href="#">Log in</a></li>
+                <li>
+                  <Link href="/profile">
+                    <a className="text-white dropdown-item">Profile</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/login">
+                    <a className="text-white dropdown-item">Login</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/logout">
+                    <a className="text-white dropdown-item">Log out</a>
+                  </Link>
+                </li>
               </ul>
             </div>
         </div>     
@@ -161,7 +173,7 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
                   return (
                     <li key={path.id}>
                       <Link href={path.path}>
-                        <a href="#" className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" aria-current="true">
+                        <a href={path.path} className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" aria-current="true">
                           <span>{path.title}</span>
                         </a>
                       </Link>
@@ -179,15 +191,33 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
                   loading="lazy"
                   />
                 <ul className=" bg-dark list-unstyled">
-                  <li className=''><a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="#">Profile</a></li>
-                  <li className=''><a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="#">Log Out</a></li>
+                  <li className=''>
+                    <Link href="/profile">
+                      <a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="#">
+                        Profile
+                      </a>
+                    </Link>
+                  </li>
+                  <li className=''>
+                    <Link href="/profile">
+                      <a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="/logout">
+                        Log out
+                      </a>
+                    </Link>
+                  </li>
+                  <li className=''>
+                    <Link href="/profile">
+                      <a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="/logout">
+                        Log in
+                      </a>
+                    </Link>
+                  </li>                    
                 </ul>
-                </div>
+              </div>
             </div>
           </div>
         </div>
-        </nav>
-
+      </nav>
     </>
   );
 }
