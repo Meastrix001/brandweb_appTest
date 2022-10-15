@@ -1,3 +1,20 @@
+export interface GameData{
+  count:                        number;
+  description:                  string;
+  // filters:    
+  // {years: [{from: 2020, to: 2022, filter: "2020-01-01,2022-12-31", decade: 2020,…},…]}
+  next:                         string;
+  previous:                     string;
+  nofollow:                     boolean;
+  // nofollow_collections: 
+  noindex:                      boolean;
+  results:                      Game[];
+  seo_description:              string;
+  seo_h1:                       string;
+  seo_keywords:                 string;
+  seo_title:                    string;
+}
+
 export interface Game {
     id:                          number;
     slug:                        string;
@@ -10,13 +27,14 @@ export interface Game {
     tba:                         boolean;
     updated:                     Date;
     background_image:            string;
-    developers:                  developers[];
+    developers:                  Developers[];
     background_image_additional: string;
     website:                     string;
     rating:                      number;
     rating_top:                  number;
     description_raw:             string;
     ratings:                     Rating[];
+    stores:                      Stores[];
     // reactions:                   AddedByStatus;
     added:                       number;
     // added_by_status:             AddedByStatus;
@@ -36,18 +54,46 @@ export interface Game {
     reviews_text_count:          string;
     ratings_count:               number;
     suggestions_count:           number;
-    alternative_names:           string[];
+    // alternative_names:           string[];
     metacritic_url:              string;
     parents_count:               number;
     additions_count:             number;
     game_series_count:           number;
+    age:                          string;
     esrb_rating:                 EsrbRating;
     platforms:                   Platform[];
-    publishers:                  Publishers[];
-    stores:                      Stores[]
+    publishers:                  Publisher[];
+    tags:                        Tag[]
+    genres:                       Genre[]
   };
 
-  export interface developers {
+  export interface Additions {
+    count:          number;
+    next:           string;
+    previous:       string;
+    results:        Result[];
+  }
+
+  export interface Series {
+    count:          number;
+    next:           string;
+    previous:       string;
+    results:        Result[];
+  }
+
+  export interface Result {
+      id: number,
+      slug: string,
+      name: string,
+      released: string,
+      tba: boolean,
+      background_image: string,
+      rating: number,
+      rating_top: number,
+      ratings:  Rating[]
+  }
+
+  export interface Developers {
     games_count:                number;
     id:                         number;
     image_background:           string;
@@ -64,7 +110,7 @@ export interface Game {
 export interface Platform {
     platform:     EsrbRating;
     released_at:  string;
-    slug: String
+    slug:         String;
     requirements: Requirements;
 }
 
@@ -73,7 +119,7 @@ export interface Requirements {
   recommended:  string;
 }
 
-export interface Publishers {
+export interface Publisher {
   games_count:                number;
   id:                         number;
   image_background:           string;
@@ -102,6 +148,36 @@ export interface Rating {
   percent:                    number;
   title:                      string;
 }
+
+export interface Screenshots {
+  image:                      string,
+  hidden:                     boolean
+  results:                    Screenshot[]
+}
+
+export interface Screenshot {
+  image:                      string,
+  hidden:                      boolean
+}
+
+export interface Tag {
+  games_count:                number;
+  id:                         number;
+  image_background:           string;
+  language:                   string
+  name:                       string;
+  slug:                       string;
+}
+export interface Genre {
+  games_count:                number;
+  id:                         number;
+  image_background:           string;
+  language:                   string
+  name:                       string;
+  slug:                       string;
+}
+
+
 
 
   

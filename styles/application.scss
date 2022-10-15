@@ -1,4 +1,5 @@
 @import 'gameCard.scss';
+@import 'auth.scss';
 $gray-base:              #000 !default;
 $gray-darker:            lighten($gray-base, 13.5%) !default; // #222
 $gray-dark:              lighten($gray-base, 20%) !default;   // #333
@@ -14,11 +15,10 @@ $brand-danger:          #d9534f !default;
 
 $theme-colors: (
   "primary":    #0c0d21,
-//   "secondary":  $secondary,
-//   "success":    $success,
-//   "info":       $info,
-//   "warning":    $warning,
-//   "danger":     $danger,
+  "success":    #5cb85c,
+  "info":       #5bc0de,
+  "warning":    #f0ad4e,
+  "danger":     #d9534f,
   "light":      #333646,
   "dark":       #090a1c
 );
@@ -55,24 +55,47 @@ html{
 }
 main{
     margin-left: auto;
-    min-height: 100vh;
+    min-height: calc(100vh - 5rem);
     margin-top: 5rem;
     border-top: 4px solid red;
     @media (min-width: 992px) {
-          padding-left: 20rem;
-          margin-left: auto;
-        }
+      padding-left: 20rem;
+      margin-left: auto;
+    }
 }
 
-
+.profile{
+  width: 100%;
+  @media (min-width:992px) {
+    width: calc(100vw - 20rem);
+  }
+}
 ul{
   padding-inline-start: 0;
 }
 .Home_container{
     padding: 0;
 }
+
+.gameList{
+  height: fit-content !important;
+  .gameCard:nth-child(n+9){
+    display: none;
+  }
+  &.open{
+    .gameCard:nth-child(n+4){
+      display: unset;
+    } 
+  }
+}
+.fit-content{
+  width: fit-content;
+}
 .cursor-pointer{
   cursor: pointer;
+  &:hover{
+    opacity: 75%;
+  }
 }
 .backButton{
   transition: 0.075s ease all;
@@ -92,10 +115,23 @@ ul{
   }
   .detailsGameBg{
     max-width: 100%;
+    min-width: 100%;
       img{
         max-width: 100%;
         opacity: 75%;
+        width: 100%;
+        @media (min-width:992px) {
+          width: calc(100vw - 20rem);
+        }
       }
+  }
+}
+.galery{
+  li{
+    img{
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 .navbar{
@@ -121,15 +157,26 @@ ul{
     }
   }
 }
-.navSearchField:focus{
-  input {
-    border: 1px solid;
-    color: #212529;
-    background-color: #090a1c;
-    border-color: #0026ff;
-    outline: 0;
-    box-shadow: 0 0 5px #0026ff;
-    clip-path: inset(-5px 0px -5px -5px);
+.hide{
+  opacity: 0;
+}
+.navSearchField{
+    width: auto;
+
+  &:focus{
+    input {
+      border: 1px solid;
+      color: #212529;
+      background-color: #090a1c;
+      border-color: #0026ff;
+      outline: 0;
+      box-shadow: 0 0 5px #0026ff;
+      clip-path: inset(-5px 0px -5px -5px);
+      
+    }
+  }
+  @media (min-width:992px) {
+    width: 25vw;
   }
 }
 .dropdownButton{
@@ -140,15 +187,23 @@ ul{
     transition: 0.125s ease all;
   }
 }
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #090a1c;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
 .searchResultsList{
 position: fixed;
 top: 5rem;
 max-width: 80%;
 box-shadow: 0px 9px 10px 0px white;
+z-index: 2;
 @media (min-width: 500px) {
-  max-width: 100%;
-
-    
+  max-width: 100%; 
   }
 a{
   img{
@@ -161,7 +216,16 @@ a{
   }
 }
 }
-
+.test{
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: none;
+}
 .navbar-toggler{
   z-index: 9000;
   position: relative;
@@ -178,59 +242,51 @@ a{
     }
     z-index: 1300;
     background-color: #090a1c;
+}
+.ratings{
+    small{
+      color: white;
     }
-      .footer {
-        display: flex;
-        flex: 1;
-        padding: 2rem 0;
-        border-top: 1px solid #eaeaea;
-        justify-content: center;
-        align-items: center;
-      }
-      
-      .ratings{
-          small{
-            color: white;
-          }
-          li:nth-child(2) h3{         
-            color: #81c43b;
-          }
-          li:nth-child(3) h3{         
-            color: #4e6dd1;
-          }
-          li:nth-child(4) h3{         
-            color: #f99d3b;
-          }
-          li:nth-child(5) h3{         
-            color: #f83847;
-          }
+    li:nth-child(2) h3{         
+      color: #81c43b;
+    }
+    li:nth-child(3) h3{         
+      color: #4e6dd1;
+    }
+    li:nth-child(4) h3{         
+      color: #f99d3b;
+    }
+    li:nth-child(5) h3{         
+      color: #f83847;
+    }
 
-        }
-      
-      .footer a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-      }
-
-      @media (max-width: 600px) {
+}
+@media (max-width: 600px) {
         .grid {
           width: 100%;
           flex-direction: column;
         }
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .card,
-        .footer {
-          border-color: #222;
-        }
-        .code {
-          background: #111;
-        }
-        .logo img {
-          filter: invert(1);
-        }
-      }
-      
+}
+@media (prefers-color-scheme: dark) {
+  .card,
+  .footer {
+    border-color: #222;
+  }
+  .code {
+    background: #111;
+  }
+  .logo img {
+    filter: invert(1);
+  }
+}
+.modal {
+        background-color: rgba(0, 0, 0, 0.622);
+        z-index: 2000;    
+        .modal-content{
+              height: fit-content;
+              background-color: unset;
+              img{
+                max-width: auto;
+              }
+            }
+}

@@ -1,0 +1,46 @@
+.authPage{
+    height: 100vh;
+    .btn-dark {
+        border-color: #0d6efd;
+        &:hover {
+            color: #fff;
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+    }
+    .nav-pills{
+    
+      display:table !important;
+      width:100%;
+      .nav-link {
+        border-radius: 0px;
+            border-bottom: 1px solid #0d6efd40;
+    
+        }
+    }
+    .nav-item{
+          display: table-cell;
+           background: #0d6efd2e;
+    }
+    .form{
+    
+      padding: 10px;
+          height: 300px;
+          input{
+            &::placeholder &::-ms-value {
+                color: white;
+            }
+            margin-bottom: 12px;
+            border-radius: 3px;
+            &:focus{
+    
+                box-shadow: none;
+              }
+          }
+          button{
+    
+            margin-top: 20px;
+          }
+        }
+}    
+
