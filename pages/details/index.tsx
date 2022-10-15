@@ -125,7 +125,9 @@ function DetailsPage() {
                                 {gameData?.stores.map((store: Stores, index) => {
                                     return (
                                     <li className="" key={index}>
+                                        {/* @ts-ignore: TBF, "name" does not exist in type store. But it does. works local/not hosted*/}
                                         <p className="ms-3 text-white mb-0">in {store.store.name} </p>
+                                        {/* @ts-ignore: TBF, "domain" does not exist in type store. But it does, works local/not hosted */}
                                         <p className="ms-4 text-white mt-0">at: <a className="text-white text-decoration-underline" href={`https://www.`+ store.store.domain}>{store.store.domain}</a> </p>
                                         </li>
                                     )
