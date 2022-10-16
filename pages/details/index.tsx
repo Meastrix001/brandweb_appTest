@@ -110,7 +110,7 @@ function DetailsPage() {
                     </Link> 
                     {gameData?.name}
                     </h2>
-                    <p className="m-auto p-1 text-white">released on {gameData?.released} by {gameData?.publishers[0].name}</p>
+                    <p className="m-auto p-1 text-white">released on {gameData?.released} by {gameData?.publishers[0]?.name}</p>
                     </div>
         
                     {/* IMG MODAL */}
@@ -158,7 +158,7 @@ function DetailsPage() {
                         <div className="tab-content" id="myTabContent">
                         {/* ABOUT TAB*/}
                       <div className={`mt-3 tab-pane fade ${activeTab == "about" ? "show active" : ""}`} >
-                      <p className="text-white mb-0">Released on {gameData?.released} by {gameData?.publishers[0].name} </p>
+                      <p className="text-white mb-0">Released on {gameData?.released} by {gameData?.publishers[0]?.name} </p>
                       <p className="text-white">Description:</p>
                       <p className="text-white p-1">{gameData?.description_raw}</p>
                       </div>
@@ -168,7 +168,7 @@ function DetailsPage() {
                         <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start justify-content-center justify-content-sm-evenly m-auto ">
 
                         <ul className="list-unstyled list-unstyled ratings">
-                                <h3 className="text-white">What player think:</h3>
+                                <h3 className="text-white">What players think:</h3>
 
                                 {gameData?.ratings.map((rating: Rating, index) => {
                                     return (

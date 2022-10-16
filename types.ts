@@ -15,6 +15,22 @@ export interface GameData{
   seo_title:                    string;
 }
 
+export interface User{
+  email:             string;
+  password:          string;
+  password_verify:   string;
+}
+export interface UserGames {
+results:                        UserGame[]
+}
+
+export interface UserGame {
+  UID: string;
+  game_id: number 
+  name: string
+  photoURL: string
+}
+
 export interface Game {
     id:                          number;
     slug:                        string;
@@ -59,14 +75,14 @@ export interface Game {
     parents_count:               number;
     additions_count:             number;
     game_series_count:           number;
-    age:                          string;
+    age:                         string;
     esrb_rating:                 EsrbRating;
     platforms:                   Platform[];
     publishers:                  Publisher[];
-    tags:                        Tag[]
-    genres:                       Genre[]
+    tags:                        Tag[];
+    genres:                      Genre[];
   };
-
+  
   export interface Additions {
     count:          number;
     next:           string;

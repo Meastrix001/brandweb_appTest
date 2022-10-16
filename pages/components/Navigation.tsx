@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Game } from '../../types'
+import { Game, UserGame, UserGames } from '../../types'
 import Link from 'next/link'
 import { getAuth, signOut } from "firebase/auth";
 import Router from "next/router";
+import { collection, doc, Firestore, getDoc, getDocs, getFirestore, query, where} from "firebase/firestore"
+
 type Props = {
   childToParentSearchRes: any,
 };
@@ -15,10 +17,12 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
     const [updateSearch, setUpdateSearch] = useState<Number>(0)
     const [searchResult, setSearchResult] = useState<any[]>([])
     const [searchOpen, setSearchOpen] = useState(false)
+    const [userGames, setUserGames] = useState<any[]>([])
+    const [updateGamesColl, setUpdategamesColl] = useState(0)
+
     const auth = getAuth();
+    const db = getFirestore()
     useEffect(() => {
-        console.log(auth)
-    
         setSearchResult([])
         if(searchQuerry){
     
@@ -26,7 +30,6 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
             const fetchData = async () => {
               const results = await fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&search=${searchQuerry}`)
               const searchData = await results.json()
-              console.log(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&search=${searchQuerry}`)
               setSearchResult(searchData.results)
             }
             fetchData()
@@ -34,6 +37,23 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
           return () => clearTimeout(timer)
         }
       }, [searchQuerry, updateSearch])
+
+      useEffect(() => {
+
+        const fetchData = async () => {
+          if(auth.currentUser && auth.currentUser.uid) {
+            const q = query(collection(db, `Saved games/${auth.currentUser.uid}/games`))
+            var new_data: any[] = []
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+              new_data.push(doc.data())
+            });
+            setUserGames(new_data)
+          }
+        }
+        fetchData()
+      },[auth.currentUser, db, updateGamesColl])
+
       const activitiesPaths =[
         {
           title: "Games",
@@ -143,7 +163,7 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
             </button>   
 
           </div>
-          <div className="dropdown d-none d-lg-flex">
+          <div className="dropdown d-none d-lg-flex" >
             <div className='me-1'>
               <p className='m-0 text-end text-white'>{auth ? auth.currentUser?.displayName : "Guest"} </p>
               <p className='m-0 text-right'><small className='text-gray'> {auth.currentUser ? auth.currentUser.email : ""} </small></p>
@@ -165,7 +185,7 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
                 </li>
                 <li>
                   <Link href="/auth/auth">
-                    <a className={`${auth.currentUser ? "d-none" : ""} text-white dropdown-item`}>Login</a>
+                    <a className={`${auth.currentUser ? "d-none" : ""} text-white dropdown-item`} >Login</a>
                   </Link>
                 </li>
                 <li>
@@ -234,33 +254,49 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
                   )
                 })}
               </ul>
+              <h3 className={` ${auth.currentUser ? "" : "d-none"} justify-content-center align-items-center d-flex text-white fit-content bg-light rounded ps-4 pe-3 pt-2 pb-2`} >Your games<img height="35px" src="/rotate.svg" className="cursor-pointer ms-2" onClick={(e) => {setUpdategamesColl(updateGamesColl +1)}} /> </h3>
+              {/* <p className="cursor-pointer" onClick={(e) => {setUpdategamesColl(updateGamesColl +1)}}> refresh</p> */}
+              <ul className={`list-unstyled ps-4 mb-5 ${userGames.length ? "" : "d-none"} ${auth.currentUser ? "" : "d-none"}`}>
+                {userGames?.map((game: UserGame) => {
+                  return (
+                    <li key={game.UID}>
+                      <Link href={`/details?slug=${game.game_id}`}>
+                        <a href={""} className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" aria-current="true">
+                          <img src={game.photoURL} width="50px" alt="" />
+                          <span>{game.name}</span>
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
                 <div className='d-lg-none'>
                   <img
                   onClick={(e) => {setDropdownToggle(!dropdownToggle)}}
-                  src="/bear_cartoon.png"
+                  src={`${auth.currentUser?.photoURL ? auth.currentUser?.photoURL : "/placeholder_user.png"}`}
                   className="rounded-circle ps-4"
                   height="44"
                   alt=""
                   loading="lazy"
                   />
                 <ul className=" bg-dark list-unstyled ps-4">
-                  <li className=''>
+                  <li className={`${auth.currentUser ? "" : "d-none"}`}>
                     <Link href="/profile">
                       <a className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" href="#">
                         Profile
                       </a>
                     </Link>
                   </li>
-                  <li className=''>
+                  <li className={`${auth.currentUser ? "" : "d-none"}`}>
                     <Link href={""}>
                       <a onClick={(e) =>{auth.signOut()}} className={`${!auth ? "d-none" : ""} list-group-item bg-transparent text-white list-group-item-action py-2 ripple`} href="/logout">
                         Log out
                       </a>
                     </Link>
                   </li>
-                  <li className=''>
+                  <li className={`${!auth.currentUser ? "" : "d-none"}`}>
                     <Link href="/auth/auth">
-                      <a className={`${auth ? "d-none" : ""} list-group-item bg-transparent text-white list-group-item-action py-2 ripple`} href="/logout">
+                      <a className={`list-group-item bg-transparent text-white list-group-item-action py-2 ripple`} href="/logout">
                         Log in
                       </a>
                     </Link>

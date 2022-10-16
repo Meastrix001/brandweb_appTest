@@ -91,6 +91,12 @@ ul{
 .fit-content{
   width: fit-content;
 }
+.fit-height{
+  height: fit-content;
+}
+.full-width{
+  width: 100%;
+}
 .cursor-pointer{
   cursor: pointer;
   &:hover{
@@ -232,6 +238,7 @@ a{
 }
 .sidebar {
     position: fixed;
+    overflow-x: scroll;
     top: 0;
     bottom: 0;
     left: 0;
