@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Game } from '../../types'
-import Cliploader from "react-spinners/Cliploader";
+import ClipLoader from "react-spinners/ClipLoader";
 import { getAuth} from "firebase/auth";
 import { addDoc, collection, deleteDoc, deleteField, doc, Firestore, getDocs, getFirestore, query, setDoc, updateDoc, where} from "firebase/firestore"
 import { getDatabase, ref, set } from "firebase/database";
@@ -107,7 +107,7 @@ export default function GameCard(data: any) {
                           <h5 className="text-white"><small>{gameData.name}</small></h5>
                           : 
                           <div className="pt-4 pb-4 m-auto d-flex justify-content-center align-items-center">
-                              <Cliploader color="#2127c8"/>
+                              <ClipLoader color="#2127c8"/>
                           </div>
                           }
                           {/* <p className="text-black">studio</p> */}
