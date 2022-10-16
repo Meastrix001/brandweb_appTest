@@ -38,7 +38,7 @@ const Home: NextPage = ({searchDataRes}: any) => {
         {/* @ts-ignore: */}
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossOrigin="anonymous" async></script>
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> 
       
         <MainContainer> 
             <div className='container p-4'>
