@@ -181,6 +181,7 @@ export default function Navigation( {childToParentSearchRes}: Props) {
               src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : "/placeholder_user.png"}
               className="rounded-circle"
               height="44"
+              width="44"
               alt=""
               loading="lazy"
               />

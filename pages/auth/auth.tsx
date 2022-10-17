@@ -75,7 +75,7 @@ function AuthPage() {
                 photoURL: userRegCreds.photoURL,
                 displayName: userRegCreds.displayName
               }).then(() => {
-              Router.push("/")
+                Router.push("/")
               }).catch((error) => {
                 if(error.code === 400){
                   setEmailError(true);

@@ -6,6 +6,8 @@ comments are added in the code,
 These are mainly to make it easier for you to find something if you want to know how I did something.
 I generaly dont place comments this much for every single thing.
 
+during registration, if you add a picture, make sure the string is not too long, this wil cause same random firestore error
+
 ## full list of things used
 - React
 - Nextjs
@@ -66,4 +68,4 @@ Profile:            /profile
 login&register:     /auth
 
 Hosted version:
-[JAGL: Just Another Games Library](https://develop.d3ugc7acqiiyqr.amplifyapp.com/auth/auth)
+[1]:https://develop.d3ugc7acqiiyqr.amplifyapp.com  "JAGL: Just Another Games Library"
