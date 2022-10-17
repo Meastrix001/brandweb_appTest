@@ -1,113 +1,97 @@
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { initFirebase } from "../../firebase/firebaseapp"
+import Link from "next/link";
+import { useState } from "react"
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import Router from "next/router";
-import { User } from "../../types";
+
+
 
 
 function AuthPage() {
   
-  const googleProvider = new GoogleAuthProvider
-  const facebookProvider = new FacebookAuthProvider
-  const twitterProvider = new TwitterAuthProvider
-  const githubProvider = new GithubAuthProvider
+  const googleProvider = new GoogleAuthProvider;
+  const facebookProvider = new FacebookAuthProvider;
+  const twitterProvider = new TwitterAuthProvider;
+  const githubProvider = new GithubAuthProvider;
+  const [toggleType, setToggleType] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const auth = getAuth();
-  const [toggleType, setToggleType] = useState(false)
   const [userRegCreds, setUserRegCreds] = useState({
     email: "",
     displayName: "",
     password: "",
     password_verify: "",
-      photoURL: ""
-    })
+    photoURL: ""
+    });
     const [userCreds, setUserCreds] = useState({
       email: "",
       password: "",
-    })
+    });
 
     const onRegChange = (e:any) => {
       setUserRegCreds({ ...userRegCreds, [e.target.name]: e.target.value });
-      console.log(userRegCreds, e.target.value)
-    }
+    };
 
     const onChange = (e:any) => {
       setUserCreds({ ...userCreds, [e.target.name]: e.target.value });
-      console.log(userCreds, e.target.value)
-    }
+    };
     
     const loginProvider = async (provider: string) => {
       if(provider === "google") {
         const result = await signInWithPopup(auth, googleProvider)
         if(result){
-          Router.push("/")
+          Router.push("/");
         }
       }
       
       if(provider === "facebook") {
         const result = await signInWithPopup(auth, facebookProvider)
         if(result){
-          Router.push("/")
+          Router.push("/");
         }
       }
 
       if(provider === "github") {
         const result = await signInWithPopup(auth, githubProvider)
         if(result){
-          Router.push("/")
+          Router.push("/");
         }
       }
 
       if(provider === "twitter") {
         const result = await signInWithPopup(auth, twitterProvider)
         if(result){
-          Router.push("/")
+          Router.push("/");
         }
       }
-    }
+    };
 
 
     const signInWithCreds = async () => {
-      console.log("user created")
-      const auth = getAuth();
       if(userRegCreds.password === userRegCreds.password_verify && userRegCreds.email && userRegCreds.password)
         createUserWithEmailAndPassword(auth, userRegCreds.email, userRegCreds.password)
-          .then((userCredential) => {
-            console.log(userCredential)
+          .then(() => {
             if(auth.currentUser){
               updateProfile(auth.currentUser, {
                 photoURL: userRegCreds.photoURL,
                 displayName: userRegCreds.displayName
-              }).then((response) => {
-              console.log("RESPONSE", auth.currentUser)
+              }).then(() => {
               Router.push("/")
               }).catch((error) => {
-                // An error occurred
-                // ...
+                if(error.code === 400){
+                  setEmailError(true);
+                }
               });
             }
-
           })
-          .catch((error) => {
-          });
-    }
+        }
     const logInWithCreds = async () => {
       if(userCreds.password && userCreds.email){
         signInWithEmailAndPassword(auth, userCreds.email, userCreds.password)
-          .then((userCredential) => {
-            Router.push("/")
-            console.log(userCredential)
+          .then(() => {
+            Router.push("/");
           })
-          .catch((error) => {
-            console.log(error)
-            const errorMessage = error.message;
-          });
       }
     }
-    useEffect(() => {
-      const app = initFirebase
-      console.log(app)
-    }, []) 
     return (
         <div className="d-flex authPage bg-primary justify-content-center align-items-center mt-5">
 
@@ -124,6 +108,7 @@ function AuthPage() {
                
               </ul>
               <div className="tab-content d-md-flex" >
+              {/* LOGIN */}
                 <div className={`tab-pane fade ${!toggleType ? "show active" : ""}`}>
                     <img src="/logo.png" alt="logo" className="p-2" />
                   <div className="form px-4 fit-height">
@@ -148,9 +133,9 @@ function AuthPage() {
                     </div>
                   </div>
                 </div>
-
+                {/* REGISTER */}
                 <div className={`tab-pane fade ${toggleType ? "show active" : ""}`} >
-                <img src="/logo.png" alt="logo" className="p-2" />
+                  <img src="/logo.png" alt="logo" className="p-2" />
                   <div className="form px-4 fit-height"> 
                   {/* {JSON.stringify(userRegCreds)} */}
                     <label htmlFor="regName" className="text-white"> Display name</label>
@@ -159,6 +144,7 @@ function AuthPage() {
                       <label htmlFor="regName" className="text-white">Email</label>
                       <input onChange={(e) => {onRegChange(e)}} type="text" name="email" className=" mb-0 text-white form-control" placeholder="Email" value={userRegCreds.email}/>
                       <div className={`badge ${ userRegCreds.email.includes("@") ? "d-none" : " bg-danger"} mb-3`}>Invalid email</div>
+                      <div className={`badge ${ !emailError ? "d-none" : " bg-danger"} mb-3`}>Email already exists</div>
                     </div>
 
                     <label htmlFor="regPhoto" className="text-white">Picture</label>
@@ -185,6 +171,9 @@ function AuthPage() {
                   </div>
                 </div>
                 <div className="d-flex pt-4 pt-md-0 flex-column align-items-center justify-content-center">
+                  <img alt="personal picture" className={`${userRegCreds.photoURL ? "" : "d-none"} rounded-circle mt-5 mb-2`} width="150px" src={userRegCreds.photoURL}/>
+                    <p className={`${userRegCreds.displayName ? "" : "d-none"} text-white ps-2 pe-2 mb-0`}>{userRegCreds.displayName} </p>
+                    <p className={`${userRegCreds.email ? "" : "d-none"} p-2 pt-0`}>{userRegCreds.email} </p>
                   <button onClick={(e) => {loginProvider("google")}} className="full-width p-2">Log in with google</button>    
                   <button onClick={(e) => {loginProvider("facebook")}} className="full-width p-2">Log in with Facebook</button>    
                   <button onClick={(e) => {loginProvider("github")}} className="full-width p-2">Log in with Github</button>    

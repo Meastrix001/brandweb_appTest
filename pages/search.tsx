@@ -1,45 +1,40 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { Game, GameData } from '../types'
-import GameCard from './components/GameCard'
-import MainContainer from './components/MainContainer'
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { Game, GameData } from '../types';
+import GameCard from './components/GameCard';
+import MainContainer from './components/MainContainer';
 
 function Search() {
-const router = useRouter()
-const [searchResult, setSearchResult] = useState<GameData>()
-const [pageNumber, setPageNumber] = useState<number>(1)
+const router = useRouter();
+const [searchResult, setSearchResult] = useState<GameData>();
+const [pageNumber, setPageNumber] = useState<number>(1);
 
     useEffect(() => {
         const fetchData = async () => {
             if(router.query.tag) {
-              setSearchResult(undefined)
-                const results = await fetch(`https://api.rawg.io/api/games?tags=${router.query.tag}&key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&page=${pageNumber}`)
-                const res = await results.json()
+              setSearchResult(undefined);
+                const results = await fetch(`https://api.rawg.io/api/games?tags=${router.query.tag}&key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&page=${pageNumber}`);
+                const res = await results.json();
                 if(res){
-                    console.log(res)
-                    setSearchResult(res)
+                    setSearchResult(res);
                 }
             }
 
             if(router.query.genre) {
                 setSearchResult(undefined)
-                const results = await fetch(`https://api.rawg.io/api/games?genres=${router.query.genre}&key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&page=${pageNumber}`)
-                const res = await results.json()
-                console.log(`https://api.rawg.io/api/games?genres=${router.query.genre}&key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`)
+                const results = await fetch(`https://api.rawg.io/api/games?genres=${router.query.genre}&key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&page=${pageNumber}`);
+                const res = await results.json();
                 if(res){
-                    console.log(res)
-                    setSearchResult(res)
+                    setSearchResult(res);
                 }
             } else {
                 if(router.query.tag === undefined && router.query.genre === undefined || searchResult && searchResult === undefined){
-                    router.push("/")
-                  }
+                    router.push("/");
+                }
             }
-
           }
-
-          fetchData()
-    }, [router.query.slug, router.query.genre, pageNumber])
+          fetchData();
+    }, [router.query.slug, router.query.genre, pageNumber, router, searchResult])
     return (
       <MainContainer>
 

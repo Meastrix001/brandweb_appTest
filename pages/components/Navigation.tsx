@@ -1,40 +1,38 @@
 import { useState, useEffect } from "react";
-import { Game, UserGame, UserGames } from '../../types'
-import Link from 'next/link'
-import { getAuth, signOut } from "firebase/auth";
-import Router from "next/router";
-import { collection, doc, Firestore, getDoc, getDocs, getFirestore, query, where} from "firebase/firestore"
+import { UserGame } from '../../types';
+import Link from 'next/link';
+import { getAuth} from "firebase/auth";
+import { collection, deleteDoc, getDocs, getFirestore, query, where} from "firebase/firestore";
 
 type Props = {
   childToParentSearchRes: any,
 };
 
-export default function Navigation( {childToParentSearchRes}: Props, {RawgData}: any) {
-    const [gameData, setGameData] = useState<Game>()
-    const [dropdownToggle, setDropdownToggle] = useState<boolean>(false)
-    const [sidebarToggle, setSidebarToggle] = useState<boolean>(false)
-    const [searchQuerry, setSearchQuerry] = useState<String>("")
-    const [updateSearch, setUpdateSearch] = useState<Number>(0)
-    const [searchResult, setSearchResult] = useState<any[]>([])
-    const [searchOpen, setSearchOpen] = useState(false)
-    const [userGames, setUserGames] = useState<any[]>([])
-    const [updateGamesColl, setUpdategamesColl] = useState(0)
+export default function Navigation( {childToParentSearchRes}: Props) {
+    const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
+    const [sidebarToggle, setSidebarToggle] = useState<boolean>(false);
+    const [searchQuerry, setSearchQuerry] = useState<String>("");
+    const [updateSearch, setUpdateSearch] = useState<Number>(0);
+    const [searchResult, setSearchResult] = useState<any[]>([]);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [userGames, setUserGames] = useState<any[]>([]);
+    const [updateGamesColl, setUpdategamesColl] = useState(0);
 
     const auth = getAuth();
-    const db = getFirestore()
+    const db = getFirestore();
     useEffect(() => {
-        setSearchResult([])
+        setSearchResult([]);
         if(searchQuerry){
     
           const timer = setTimeout(() => {
             const fetchData = async () => {
-              const results = await fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&search=${searchQuerry}`)
-              const searchData = await results.json()
-              setSearchResult(searchData.results)
+              const results = await fetch(`https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}&search=${searchQuerry}`);
+              const searchData = await results.json();
+              setSearchResult(searchData.results);
             }
-            fetchData()
+            fetchData();
           }, 500)      
-          return () => clearTimeout(timer)
+          return () => clearTimeout(timer);
         }
       }, [searchQuerry, updateSearch])
 
@@ -42,18 +40,28 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
 
         const fetchData = async () => {
           if(auth.currentUser && auth.currentUser.uid) {
-            const q = query(collection(db, `Saved games/${auth.currentUser.uid}/games`))
-            var new_data: any[] = []
+            const q = query(collection(db, `Saved games/${auth.currentUser.uid}/games`));
+            var new_data: any[] = [];
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-              new_data.push(doc.data())
+              new_data.push(doc.data());
             });
-            setUserGames(new_data)
+            setUserGames(new_data);
           }
         }
         fetchData()
       },[auth.currentUser, db, updateGamesColl])
-
+      
+      const deleteGameFromColl = async (id: number) => {
+        if(id && auth.currentUser){
+          const d = query(collection(db, `Saved games/${auth.currentUser.uid}/games`), where('game_id', '==', id));
+          const docSnap = await getDocs(d);
+          docSnap.forEach((doc) => {
+              deleteDoc(doc.ref);
+              setUpdategamesColl(updateGamesColl +1);
+          });
+        }
+      }
       const activitiesPaths =[
         {
           title: "Games",
@@ -100,7 +108,7 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
           id: 4
         },
       ];
-  return ( <>
+      return ( <>
         {/* top navigation */}
         <nav
         id="main-navbar"
@@ -259,13 +267,14 @@ export default function Navigation( {childToParentSearchRes}: Props, {RawgData}:
               <ul className={`list-unstyled ps-4 mb-5 ${userGames.length ? "" : "d-none"} ${auth.currentUser ? "" : "d-none"}`}>
                 {userGames?.map((game: UserGame) => {
                   return (
-                    <li key={game.UID}>
+                    <li key={game.UID} className=" d-flex align-items-center">
                       <Link href={`/details?slug=${game.game_id}`}>
                         <a href={""} className="list-group-item bg-transparent text-white list-group-item-action py-2 ripple" aria-current="true">
                           <img src={game.photoURL} width="50px" alt="" />
-                          <span>{game.name}</span>
+                          <span className="ms-2"><small>{game.name}</small></span>
                         </a>
                       </Link>
+                      <svg onClick={(e) => {deleteGameFromColl(game.game_id)}} className="cursor-pointer" role="img" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" aria-labelledby="cancelIconTitle" stroke="#d9534f" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#d9534f"> <title id="cancelIconTitle">Cancel</title> <path d="M15.5355339 15.5355339L8.46446609 8.46446609M15.5355339 8.46446609L8.46446609 15.5355339"/> <path d="M4.92893219,19.0710678 C1.02368927,15.1658249 1.02368927,8.83417511 4.92893219,4.92893219 C8.83417511,1.02368927 15.1658249,1.02368927 19.0710678,4.92893219 C22.9763107,8.83417511 22.9763107,15.1658249 19.0710678,19.0710678 C15.1658249,22.9763107 8.83417511,22.9763107 4.92893219,19.0710678 Z"/> </svg>
                     </li>
                   )
                 })}
