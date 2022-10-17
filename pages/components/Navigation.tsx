@@ -3,6 +3,7 @@ import { UserGame } from '../../types';
 import Link from 'next/link';
 import { getAuth} from "firebase/auth";
 import { collection, deleteDoc, getDocs, getFirestore, query, where} from "firebase/firestore";
+import React from "react";
 
 type Props = {
   childToParentSearchRes: any,

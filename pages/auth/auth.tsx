@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react"
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import Router from "next/router";
+import React from "react";
 
 
 

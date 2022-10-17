@@ -1,6 +1,7 @@
 import MainContainer from "./components/MainContainer";
 import { getAuth, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
+import React from "react";
 
 function NewPage() {
   const auth = getAuth();

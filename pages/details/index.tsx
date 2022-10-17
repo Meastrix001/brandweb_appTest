@@ -5,6 +5,7 @@ import MainContainer from "../components/MainContainer";
 import HashLoader from "react-spinners/HashLoader";
 import Link from "next/link";
 import img from "next/image";
+import React from "react";
 function DetailsPage() {
     const router = useRouter();
     const [gameData, setGameData] = useState<Game>();

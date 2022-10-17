@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { Game, GameData } from '../types';
 import GameCard from './components/GameCard';
