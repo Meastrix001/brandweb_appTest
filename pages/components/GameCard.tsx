@@ -22,7 +22,7 @@ export default function GameCard(data: any) {
             }
             fetchGameData();
         }
-      }, [data.data.id])
+      }, [])
 
     useEffect(()=> {
         const checkCollectionState = async () => {
