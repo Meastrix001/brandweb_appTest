@@ -66,4 +66,5 @@ Profile:            /profile
 login&register:     /auth
 
 Hosted version:
-[1]:https://develop.d3ugc7acqiiyqr.amplifyapp.com  "JAGL: Just Another Games Library"
+[1]:https://develop.d3ugc7acqiiyqr.amplifyapp.com 
+[JAGL: Just Another Games Library](https://develop.d3ugc7acqiiyqr.amplifyapp.com)
