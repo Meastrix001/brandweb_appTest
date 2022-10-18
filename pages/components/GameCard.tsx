@@ -7,9 +7,9 @@ import { addDoc, collection, deleteDoc, getDocs, getFirestore, query, where} fro
 
 export default function GameCard(data: any) {
     const [gameData, setGameData] = useState<Game>();
-    const [inCollectionState, setInCollectionState] = useState(false);
-    const [updateButtonState, setUpdateButtonState] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [inCollectionState, setInCollectionState] = useState<boolean>(false);
+    const [updateButtonState, setUpdateButtonState] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
     const auth = getAuth();
     const db = getFirestore();
     useEffect(() => {

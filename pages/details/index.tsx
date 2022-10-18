@@ -12,9 +12,9 @@ function DetailsPage() {
     const [gameScreenshots, setScreenshots] = useState<Screenshots>();
     const [gameAdditions, setGameAdditions] = useState<Additions>();
     const [gameSeries, setGameSeries] = useState<Series>();
-    const [activeTab, setActiveTab] = useState("about");
-    const [currentImgModalToggle, setCurrentImgModalToggle] = useState(false);
-    const [currentImgModal, setCurrentImgModal] = useState(0);
+    const [activeTab, setActiveTab] = useState<string>("about");
+    const [currentImgModalToggle, setCurrentImgModalToggle] = useState<boolean>(false);
+    const [currentImgModal, setCurrentImgModal] = useState<number>(0);
     useEffect(() => {
         const fetchData = async () => {
             if(router.query.slug) {

@@ -10,8 +10,9 @@ const Home: NextPage = ({searchDataRes}: any) => {
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [rawgData, setRawgData] = useState<GameData>();
-  const [seeMoreState, setSeeMoreState] = useState(false);
+  const [seeMoreState, setSeeMoreState] = useState<boolean>(false);
   const [largeResultsToggle, setLargeResultsToggle] = useState<boolean>(false);
+  const [updateFetch, setUpdateFetch] = useState<number>(0)
   useEffect(() => {
     setSearchResult(searchDataRes);
     setLargeResultsToggle(true);
@@ -25,7 +26,7 @@ const Home: NextPage = ({searchDataRes}: any) => {
       setRawgData(searchData);
     }
     fetchData();
-  }, [pageNumber])
+  }, [pageNumber, updateFetch])
  
   return (
     <div>
@@ -52,7 +53,7 @@ const Home: NextPage = ({searchDataRes}: any) => {
               <div className="row list is-justify-content-items-flex-start">
                   {searchResult.map((obj: any) => {
                     return ( 
-                      <GameCard key="" data={obj}/> 
+                      <GameCard key={obj.uid} data={obj}/> 
                     )
                   })}
               </div>
@@ -73,11 +74,14 @@ const Home: NextPage = ({searchDataRes}: any) => {
 
             {/* {JSON.stringify(rawgData)} */}
             <div>
-              <h3 className=' d-flex flex-column text-white pt-md-5'>Highest rated games</h3>     
+              <div className='d-flex justify-content-between'>
+                <h3 className=' d-flex flex-column text-white pt-md-5'>Highest rated games</h3>     
+                <img className="cursor-pointer" onClick={(e) => {setUpdateFetch(updateFetch +1)}} src="/rotate.svg" alt="" />    
+              </div>
               <div className={`row gameList list is-justify-content-items-flex-start ${seeMoreState ? "open" : ""}`} data-masonry='{"percentPosition": true}'>
               {rawgData?.results.sort((a:Game, b:Game) => {return b.ratings_count - a.ratings_count && b.rating - a.rating}).map((obj: Game) => {
                 return ( 
-                  <GameCard key="" data={obj}/> )
+                  <GameCard key={obj.id} data={obj}/> )
               })}
               </div>
               <h3 className='text-white pt-md-5 d-flex justify-content-between'>

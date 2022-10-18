@@ -15,9 +15,9 @@ export default function Navigation( {childToParentSearchRes}: Props) {
     const [searchQuerry, setSearchQuerry] = useState<String>("");
     const [updateSearch, setUpdateSearch] = useState<Number>(0);
     const [searchResult, setSearchResult] = useState<any[]>([]);
-    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchOpen, setSearchOpen] = useState<boolean>(false);
     const [userGames, setUserGames] = useState<any[]>([]);
-    const [updateGamesColl, setUpdategamesColl] = useState(0);
+    const [updateGamesColl, setUpdategamesColl] = useState<number>(0);
 
     const auth = getAuth();
     const db = getFirestore();
@@ -88,25 +88,25 @@ export default function Navigation( {childToParentSearchRes}: Props) {
           title: "News",
           path: "/",
           desc: "",
-          id: 1
+          id: 4
         },
         {
           title: "Partners",
           path: "/",
           desc: "",
-          id: 2
+          id: 5
         },
         {
           title: "About",
           path: "/",
           desc: "",
-          id: 3
+          id: 6
         },
         {
           title: "Help",
           path: "/",
           desc: "",
-          id: 4
+          id: 7
         },
       ];
       return ( <>
